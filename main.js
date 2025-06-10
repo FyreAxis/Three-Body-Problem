@@ -88,6 +88,12 @@ class Body{
         }
     }
 
+    newAccel(netForce){
+        for (let i = 0; i < 3; i++){ //F = ma => a = F/m
+            this.a[i] = netForce[i] / this.m;
+        }
+    }
+
     //Newton's law of gravity needs a radius
     //So let's pass two objects to get the radius
     static scalarDistance(body1, body2){ //
@@ -152,6 +158,25 @@ class Body{
             netForce[i] += f1[i] + f2[i];
         }
         return netForce;
+    }
+    //Resolution is how often calculations are simulated (how accurate)
+    //Total duration is how long the simulation goes for
+    //These are both in seconds in terms of the simulation, not computation
+    static simulate(body1, body2, body3, resolutionTime, totalDuration){
+        for (let time = 0; time < totalDuration; time += resolutionTime){
+            netForceOn1 = Body.netForce(body1, body2, body3);
+            netForceOn2 = Body.netForce(body2, body3, body1);
+            netForceOn3 = Body.netForce(body3, body1, body2);
+            body1.newAccel(netForceOn1);
+            body2.newAccel(netForceOn2);
+            body3.newAccel(netForceOn3);
+            body1.newVelocity(resolutionTime);
+            body2.newVelocity(resolutionTime);
+            body3.newVelocity(resolutionTime);
+            body1.newPosition(resolutionTime);
+            body2.newPosition(resolutionTime);
+            body3.newPosition(resolutionTime);
+        }
     }
 }
 
