@@ -158,7 +158,7 @@ class Body{
 //Creating test planets
 let myBody1 = new Body("The Sun", 1.9891e30, [0, 0, 0], [0, 0, 0]);
 let myBody2 = new Body("Earth", 5.972e24, [0, 0, 0], [1.496e11, 0, 0]);
-let myBody3 = new Body("The Moon", 7.34767309e22, [0, 0, 0], [1499844e11, 0, 0]);
+let myBody3 = new Body("The Moon", 7.34767309e22, [0, 0, 0], [1.499844e11, 0, 0]);
 
 //General Overview
 console.log(myBody1.show());
