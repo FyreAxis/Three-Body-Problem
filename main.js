@@ -164,9 +164,9 @@ class Body{
     //These are both in seconds in terms of the simulation, not computation
     static simulate(body1, body2, body3, resolutionTime, totalDuration){
         for (let time = 0; time < totalDuration; time += resolutionTime){
-            netForceOn1 = Body.netForce(body1, body2, body3);
-            netForceOn2 = Body.netForce(body2, body3, body1);
-            netForceOn3 = Body.netForce(body3, body1, body2);
+            let netForceOn1 = Body.netForce(body1, body2, body3);
+            let netForceOn2 = Body.netForce(body2, body3, body1);
+            let netForceOn3 = Body.netForce(body3, body1, body2);
             body1.newAccel(netForceOn1);
             body2.newAccel(netForceOn2);
             body3.newAccel(netForceOn3);
@@ -176,14 +176,17 @@ class Body{
             body1.newPosition(resolutionTime);
             body2.newPosition(resolutionTime);
             body3.newPosition(resolutionTime);
+            console.log(myBody1.show());
+            console.log(myBody2.show());
+            console.log(myBody3.show());
         }
     }
 }
 
-//Creating test planets
+//Creating test planets (no z-axis)
 let myBody1 = new Body("The Sun", 1.9891e30, [0, 0, 0], [0, 0, 0]);
-let myBody2 = new Body("Earth", 5.972e24, [0, 0, 0], [1.496e11, 0, 0]);
-let myBody3 = new Body("The Moon", 7.34767309e22, [0, 0, 0], [1.499844e11, 0, 0]);
+let myBody2 = new Body("Earth", 5.972e24, [0, 29.78e3, 0], [1.496e11, 0, 0]);
+let myBody3 = new Body("The Moon", 7.34767309e22, [0, 1.022e3, 0], [1.499844e11, 0, 0]);
 
 //General Overview
 console.log(myBody1.show());
@@ -214,3 +217,6 @@ console.log("Scalar Calculation: " + Body.scalarGravForce(myBody1, myBody2));
 console.log("Net force of other bodies on " + myBody1.n + ": " + JSON.stringify(Body.netForce(myBody1, myBody2, myBody3)));
 console.log("Net force of other bodies on " + myBody2.n + ": " + JSON.stringify(Body.netForce(myBody2, myBody3, myBody1)));
 console.log("Net force of other bodies on " + myBody3.n + ": " + JSON.stringify(Body.netForce(myBody3, myBody1, myBody2)));
+
+//Simulate!
+Body.simulate(myBody1, myBody2, myBody3, 1, 100);
