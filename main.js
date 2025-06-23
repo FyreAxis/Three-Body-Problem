@@ -169,7 +169,7 @@ class Body{
     //These are both in seconds in terms of the simulation, not computation
     static simulate(body1, body2, body3, resolutionTime, totalDuration){
         for (let time = 0; time < totalDuration; time += resolutionTime){
-            let netAccelOn1 = Body.netAccel(body1, body2, body3);
+            let netAccelOn1 = Body.netAccel(body1, body2, body3); //TODO: use these calculations for both textual and visual sims
             let netAccelOn2 = Body.netAccel(body2, body3, body1);
             let netAccelOn3 = Body.netAccel(body3, body1, body2);
             body1.newAccel(netAccelOn1);
@@ -181,9 +181,16 @@ class Body{
             body1.newPosition(resolutionTime);
             body2.newPosition(resolutionTime);
             body3.newPosition(resolutionTime);
-            console.log(myBody1.show());
+            console.log(myBody1.show()); //TODO: take these out, move into new textualSimulation function
             console.log(myBody2.show());
             console.log(myBody3.show());
+        }
+    }
+    static visualSimulation(body1, body2, body3, resolutionTime, totalDuration){
+        let animationBodies = document.getElementById("#simzone").getElementsByClassName("#bodies");
+
+        for (let i = 0; i < animationBodies.length; i++){
+            //TODO: get position, updates positions
         }
     }
 }
@@ -221,4 +228,8 @@ console.log("Net force of other bodies on " + myBody2.n + ": " + JSON.stringify(
 console.log("Net force of other bodies on " + myBody3.n + ": " + JSON.stringify(Body.netForce(myBody3, myBody1, myBody2)));
 
 //Simulate!
-Body.simulate(myBody1, myBody2, myBody3, 1, 100);
+//Body.simulate(myBody1, myBody2, myBody3, 1, 100);
+
+function buttonSimulation(){
+    Body.simulate(myBody1, myBody2, myBody3, 1, 100);
+}
