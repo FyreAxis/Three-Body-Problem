@@ -56,7 +56,9 @@ class Body{
         this.pos = newPos;
     }
 
-    show(){
+    //Visualization Functions
+
+    show(){ //This shows the vector values currently
         let result = this.n + " has a mass of ";
         result += this.m + ",\nan acceleration of ";
         result += JSON.stringify(this.a) + ",\na velocity of ";
@@ -64,18 +66,16 @@ class Body{
         result += JSON.stringify(this.p);
         return result;
     }
-    static displayArray(array){
-        //We may even be able to use stringify()
-        let result = "[";
-        for (let i = 0; i < array.size; i++){
-            result += array[i];
-            if (i != array.size - 1){
-                result += ", ";
-            }
+
+    static magnitudeOfVector(vector){
+        let magnitude = 0;
+        for (let i = 0; i < 3; i++){
+            magnitude += (vector[i] * vector[i]);
         }
-        return result + "]";
+        return Math.sqrt(magnitude);
     }
 
+    //Update Functions
     newPosition(duration){
         for (let i = 0; i < 3; i++){
             this.p[i] += this.v[i] * duration;
@@ -95,26 +95,7 @@ class Body{
     }
 
     //Newton's law of gravity needs a radius
-    //So let's pass two objects to get the radius
-    static scalarDistance(body1, body2){ //
-        let distance = 0;
-        let difference = [0, 0, 0];
-        for (let i = 0; i < 3; i++){
-            difference[i] = body2.p[i] - body1.p[i];
-            difference[i] *= difference[i];
-            distance += difference[i];
-        }
-        return Math.sqrt(distance);
-    }
-
-    static scalarGravForce(body1, body2){
-        //|F_g| = G (m_1 * m_2) / (r^2)
-        const g = 6.67 * Math.pow(10, -11);
-        let numerator = g * body1.m * body2.m;
-        let denominator = Math.pow(Body.scalarDistance(body1, body2), 2);
-        return numerator / denominator;
-    }
-    
+    //So let's pass two objects to get the radius    
     //The first parameter is the start, and the second is the end
     static vectorDistance(body1, body2){
         let distance = [0, 0, 0];
@@ -122,14 +103,6 @@ class Body{
             distance[i] += body2.p[i] - body1.p[i];
         }
         return distance;
-    }
-
-    static magnitudeOfVector(vector){
-        let magnitude = 0;
-        for (let i = 0; i < 3; i++){
-            magnitude += (vector[i] * vector[i]);
-        }
-        return Math.sqrt(magnitude);
     }
 
     //This calculates the force of the first body on the second body
@@ -184,6 +157,7 @@ class Body{
 }
 
 //Creating test planets (no z-axis)
+//(name, mass, velocity, position) starting values
 let myBody1 = new Body("The Sun", 1.9891e30, [0, 0, 0], [0, 0, 0]);
 let myBody2 = new Body("Earth", 5.972e24, [0, 29.78e3, 0], [1.496e11, 0, 0]);
 let myBody3 = new Body("The Moon", 7.34767309e22, [0, 1.022e3, 0], [1.499844e11, 0, 0]);
